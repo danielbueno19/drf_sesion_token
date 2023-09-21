@@ -13,9 +13,12 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.forms import AuthenticationForm
 from rest_framework.authtoken.models import Token
 
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
-from rest_framework.authentication import TokenAuthentication , SessionAuthentication
-from rest_framework.permissions import IsAuthenticated 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 
 class PersonaList(generics.ListCreateAPIView):
     queryset = Persona.objects.all()
@@ -47,6 +50,15 @@ class Login(FormView):
         if token:
             login(self.request, form.get_user())
             return super(Login,self).form_valid(form)
+        
+class Logout(APIView):
+    #re defino el metodo get()
+    def get(self, request, format= None):
+        #borra el token pero no cierra la sesion
+        request.user.auth_token.delete()
+        #ahora si cierra la sesion
+        logout(request)
+        return Response(status= status.HTTP_200_OK)
 
 '''
 1)
@@ -58,6 +70,6 @@ class Login(FormView):
  - form_valid: se aplicaran los filtros necesarios 
 3) IsAuthenticated
  - TokenAuthentication - 
- 
+4) Logout 
 '''
 
