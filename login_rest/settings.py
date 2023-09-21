@@ -65,7 +65,7 @@ ROOT_URLCONF = 'login_rest.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -134,6 +134,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #
+'''
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': {
         'rest_framework.authentication.TokenAuthentication',
@@ -142,7 +143,10 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     },
 }
+'''
 
 '''
 1) REST_FRAMEWORK: establece el metodo de autenticacion que se va a utilizar
+2) 'DIRS': []: para indicar una ruta donde estara el template
+3) se elimina la configuracion global de REST_FRAMEWORK y se gestiona desde la view
 '''
